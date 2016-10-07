@@ -91,7 +91,7 @@
 	
 	//Doc listener and React renderer
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(Board, null), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(List, null), document.getElementById('app'));
 	});
 
 /***/ },

@@ -35,8 +35,7 @@ var Board = React.createClass({
     }
 });
 
-
 //Doc listener and React renderer
 document.addEventListener('DOMContentLoaded', function() {
-    ReactDOM.render(<Board/>, document.getElementById('app'));
+    ReactDOM.render(<List/>, document.getElementById('app'));
 });
