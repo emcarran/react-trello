@@ -49,26 +49,45 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	
-	var card = function card() {
+	var Card = function Card(props) {
 	    return React.createElement(
 	        'div',
-	        { className: 'card' },
-	        'This is a card'
+	        null,
+	        React.createElement(
+	            'p',
+	            null,
+	            props.title
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            props.content
+	        )
 	    );
 	};
 	
 	var List = React.createClass({
 	    displayName: 'List',
 	
-	    render: function render() {
+	    render: function render(props) {
 	        var cards = [];
 	        for (var i = 0; i <= 3; i++) {
 	            cards.push(React.createElement('card', null));
 	        }
+	        var listTitleArray = ['List 1'];
 	        return React.createElement(
 	            'div',
-	            { className: 'list' },
-	            card
+	            null,
+	            React.createElement(
+	                'p',
+	                null,
+	                props.title
+	            ),
+	            React.createElement(
+	                'p',
+	                null,
+	                props.cards
+	            )
 	        );
 	    }
 	});
@@ -76,15 +95,26 @@
 	var Board = React.createClass({
 	    displayName: 'Board',
 	
-	    render: function render() {
+	    render: function render(props) {
 	        var boardList = [];
 	        for (var i = 0; i <= 3; i++) {
-	            boardList.push(React.createElement('list', null));
+	            boardList.push(React.createElement(List, null));
 	        }
+	        var listTitleArray = ['List 1', 'List 2', 'List 3'];
 	        return React.createElement(
 	            'div',
-	            { className: 'board' },
-	            boardList
+	            null,
+	            React.createElement(
+	                'p',
+	                null,
+	                props.title
+	            ),
+	            React.createElement(
+	                'p',
+	                null,
+	                props.boardList
+	            ),
+	            React.createElement(List, { title: listTitleArray[0] })
 	        );
 	    }
 	});

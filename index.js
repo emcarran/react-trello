@@ -1,36 +1,45 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var card = function(){
+var Card = function(props){
     return (
-        <div className="card">This is a card</div>
+        <div>
+            <p>{props.title}</p>
+            <p>{props.content}</p>
+        </div>
     );
-}
+};
 
 var List = React.createClass({
-    render: function() {
+    render: function(props) {
         var cards = [];
         for (var i=0; i<=3; i++) {
             cards.push(<card/>);
         }
+        var listTitleArray = ['List 1'];
         return (
-            <div className="list">
-                {card}
+            <div>
+                <p>{props.title}</p>
+                <p>{props.cards}</p>
             </div>
         );
     }
 });
 
 var Board = React.createClass({
-    render: function() {
+    render: function(props) {
         var boardList = [];
         for (var i=0; i<=3; i++) {
-            boardList.push(<list/>);
+            boardList.push(<List/>);
         }
+        var listTitleArray = ['List 1','List 2','List 3'];
         return (
-            <div className="board">
-                {boardList}
+            <div>
+                <p>{props.title}</p>
+                <p>{props.boardList}</p>
+                <List title={listTitleArray[0]} />
             </div>
+            
         );
     }
 });
