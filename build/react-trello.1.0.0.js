@@ -49,10 +49,11 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	
+	//Card component, stateless, has items passed in via 'props' by parent, List
 	var Card = function Card(props) {
 	    return React.createElement(
 	        'div',
-	        null,
+	        { className: 'card' },
 	        React.createElement(
 	            'p',
 	            null,
@@ -66,62 +67,129 @@
 	    );
 	};
 	
+	//creating a simple Button component used below in the List
+	var Button = function Button(props) {
+	    return React.createElement(
+	        'button',
+	        { onClick: props.onClick },
+	        'Add Card '
+	    );
+	};
+	
+	//creates a stateful component named 'List'
 	var List = React.createClass({
 	    displayName: 'List',
 	
-	    render: function render(props) {
-	        var cards = [];
-	        for (var i = 0; i <= 3; i++) {
-	            cards.push(React.createElement('card', null));
-	        }
+	    //Gets the initial state
+	    getInitialState: function getInitialState() {
+	        return {
+	            text: '',
+	            cards: [],
+	            list: ["List 1"]
+	        };
+	    },
+	    onAddInputChanged: function onAddInputChanged(event) {
+	        console.log("Typed in input box");
+	        this.setState({
+	            text: event.target.value
+	        });
+	    },
+	    //button clicking callback function, contains all the logic for updating the state
+	    onAddSubmit: function onAddSubmit(event) {
+	        event.preventDefault();
+	        console.log("Call to add new card");
+	        //have to set this.state.text to a var prior to clearing the state back to ''
+	        var card = [this.state.text];
+	        //clears the text state, adds the card text into the card array using concat.  Tried .push, didn't work
+	        this.setState({
+	            text: '',
+	            cards: this.state.cards.concat(card)
+	        });
+	    },
+	    render: function render() {
+	        //Array of List titles
 	        var listTitleArray = ['List 1'];
+	
+	        //displays list title from array above, should be moved up into state - TODO
+	        //cards are displayed from state of cards, mapped to card content/title
 	        return React.createElement(
 	            'div',
 	            null,
 	            React.createElement(
-	                'p',
-	                null,
-	                props.title
+	                'div',
+	                { className: 'list' },
+	                this.state.list
 	            ),
 	            React.createElement(
-	                'p',
+	                'div',
 	                null,
-	                props.cards
+	                this.state.cards.map(function (text) {
+	                    return React.createElement(Card, { className: 'card', content: text });
+	                })
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'input' },
+	                React.createElement('input', { type: 'text', placeholder: 'new card', value: this.state.text, onChange: this.onAddInputChanged }),
+	                ' '
+	            ),
+	            React.createElement(
+	                'div',
+	                { className: 'input' },
+	                React.createElement(
+	                    'button',
+	                    { onClick: this.onAddSubmit },
+	                    'add card'
+	                )
 	            )
 	        );
 	    }
 	});
+	//creates a stateful component named 'List'
+	var ListContainer = React.createClass({
+	    displayName: 'ListContainer',
 	
-	var Board = React.createClass({
-	    displayName: 'Board',
+	    //Gets the initial state
+	    getInitialState: function getInitialState() {
+	        return {
+	            clicked: false,
+	            text: '',
+	            cardsArray: []
+	        };
+	    },
+	    //button clicking callback function, where the add card stuff should go
+	    onAddSubmit: function onAddSubmit() {
+	        event.preventDefault();
+	        console.log("Call to add new card");
+	    },
+	    onAddInputChanged: function onAddInputChanged() {
+	        event.preventDefault();
+	        console.log("Typed in input box");
+	    },
+	    render: function render() {
 	
-	    render: function render(props) {
-	        var boardList = [];
-	        for (var i = 0; i <= 3; i++) {
-	            boardList.push(React.createElement(List, null));
-	        }
+	        //Array of List titles
 	        var listTitleArray = ['List 1', 'List 2', 'List 3'];
+	        var cardArray = [];
+	
 	        return React.createElement(
 	            'div',
 	            null,
 	            React.createElement(
-	                'p',
+	                'div',
 	                null,
-	                props.title
+	                React.createElement(List, { title: listTitleArray[0] })
 	            ),
-	            React.createElement(
-	                'p',
-	                null,
-	                props.boardList
-	            ),
-	            React.createElement(List, { title: listTitleArray[0] })
+	            React.createElement(Card, { content: 'This is the stuff for 1', title: 'Card 1' }),
+	            React.createElement(Card, { content: 'Card 2 stuff goes here', title: 'Card 2' }),
+	            React.createElement(Card, { content: 'Card 3 goodies in here', title: 'Card 3' })
 	        );
 	    }
 	});
 	
 	//Doc listener and React renderer
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(List, null), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(ListContainer, null), document.getElementById('app'));
 	});
 
 /***/ },
